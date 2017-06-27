@@ -46,3 +46,19 @@ HashKode.VERIFY_HASHKODE_PARAMETERS = false
 // ...
 override fun hashCode() = hashKode(f1, f2, initialOddNumber = 3, multiplierPrime = 7)
 ```
+
+---
+
+## Equality
+Checking two objects for structural equality can be done by overriding the `equals` method and using HashKodes `testEquality`.
+```Kotlin
+class Example(val field1: String = "Test", val field2: Double = Math.PI)
+{
+    override fun equals(other: Any?) = testEquality(
+            other,
+            { it.field1 == this.field1 },
+            { it.field2 == this.field2 }
+    )
+}
+```
+As seen in the code above, `testEquality` requires you to add a lambda for each field you want to check.
