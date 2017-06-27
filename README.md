@@ -33,33 +33,4 @@ HashKode is released under the [MIT license](LICENSE.md).
 
 ---
 
-## Hashcodes
-To create a hashcode, use the `hashKode` method and pass the fields of your class.
-```Kotlin
-class Example(val field1: String = "Test", val field2: Double = Math.PI)
-{
-    override fun hashCode() = hashKode(field1, field2)
-}
-```
-`hashKode` needs an odd number and a prime number to calculate hashes. By default these are set to 17 and 37. When changing these values, HashKode validates them. To disable this behaviour, you can set `HashKode.VERIFY_HASHKODE_PARAMETERS` to `false`.
-```Kotlin
-HashKode.VERIFY_HASHKODE_PARAMETERS = false
-// ...
-override fun hashCode() = hashKode(f1, f2, initialOddNumber = 3, multiplierPrime = 7)
-```
-
----
-
-## Equality
-Checking two objects for structural equality can be done by overriding the `equals` method and using HashKodes `testEquality`.
-```Kotlin
-class Example(val field1: String = "Test", val field2: Double = Math.PI)
-{
-    override fun equals(other: Any?) = testEquality(
-            other,
-            { it.field1 == this.field1 },
-            { it.field2 == this.field2 }
-    )
-}
-```
-As seen in the code above, `testEquality` requires you to add a lambda for each field you want to check.
+# API IS BEING REWORKED! Check back soon!
