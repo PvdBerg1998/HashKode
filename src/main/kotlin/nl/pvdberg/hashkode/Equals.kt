@@ -24,13 +24,38 @@
 
 package nl.pvdberg.hashkode
 
-class EqualsContext<out T>(val self: T, var equal: Boolean = true)
+class EqualsContext<out T>(val one: T, val two: T)
 {
+    var equal = true
+
+    /**
+     * Tests equality of two objects and saves result in context
+     * @receiver Object to compare another object to
+     * @param other to compare to receiver
+     * @see Any.equals
+     */
     @Suppress("NOTHING_TO_INLINE")
-    inline infix fun Any.shouldEqual(other: Any?)
+    inline infix fun Any.correspondsTo(other: Any?)
     {
-        if (!equal) return
-        equal = this == other
+        if (equal) equal = this == other
+    }
+
+    /**
+     * Runs function
+     * @param comparison Function which should do a comparison of two fields
+     */
+    inline fun compareBy(comparison: () -> Boolean)
+    {
+        if (equal) equal = comparison()
+    }
+
+    /**
+     * Compares a field by using given getter lambda
+     * @param getter Getter for a field
+     */
+    inline fun compareField(getter: T.() -> Any?)
+    {
+        if (equal) equal = one.getter() == two.getter()
     }
 }
 
@@ -42,17 +67,16 @@ class EqualsContext<out T>(val self: T, var equal: Boolean = true)
  * @return True when objects are equal
  * @see Any.equals
  */
-inline fun <reified T : Any> T.testEquality(
+inline fun <reified T : Any> T.compareFields(
         other: Any?,
-        requirements: EqualsContext<T>.(other: T) -> Unit
+        requirements: EqualsContext<T>.() -> Unit
 ): Boolean
 {
     if (other == null) return false
     if (other === this) return true
     if (other !is T) return false
 
-    return EqualsContext(this)
-            .apply { requirements(other) }
+    return EqualsContext(this, other)
+            .apply { requirements() }
             .equal
 }
-

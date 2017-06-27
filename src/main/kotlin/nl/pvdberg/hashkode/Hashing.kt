@@ -46,11 +46,10 @@ fun hashKode(vararg fields: Any?, initialOddNumber: Int = 17, multiplierPrime: I
     }
 
     var result = initialOddNumber
-    fields
-            .forEach { field ->
-                val hash = field?.hashCode() ?: 0
-                result = multiplierPrime * result + hash
-            }
+    fields.forEach { field ->
+        val hash = field?.hashCode() ?: 0
+        result = multiplierPrime * result + hash
+    }
     return result
 }
 
