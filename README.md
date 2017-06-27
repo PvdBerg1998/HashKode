@@ -117,7 +117,7 @@ override fun equals(other: Any?) = compareFields(other)
 
 ## Benchmarks
 
-HashKode is very lightweight and can outperform alternative libraries.
+HashKode can outperform alternative libraries.
 
 ### Benchmark setup
 - Intel core i5 6600k @3.50Ghz
