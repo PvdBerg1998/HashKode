@@ -23,7 +23,7 @@ HashKode is released under the [MIT license](LICENSE.md).
 
 ## Alternatives
 - [Apache Commons Lang3](https://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/builder/HashCodeBuilder.html) (483 KB)
-- [Google Guava](https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained) (2.45 MB)
+- [Google Guava](https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained) (55 KB)
 
 ---
 
