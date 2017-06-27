@@ -24,18 +24,35 @@
 
 package nl.pvdberg.hashkode
 
+class EqualsContext<out T>(val self: T, var equal: Boolean = true)
+{
+    @Suppress("NOTHING_TO_INLINE")
+    inline infix fun Any.shouldEqual(other: Any?)
+    {
+        if (!equal) return
+        equal = this == other
+    }
+}
+
 /**
  * Tests equality of two objects
  * @receiver Object to compare another object to
  * @param other Object to compare to receiver
- * @param requirements Lambdas that compare two fields
+ * @param requirements Lambda that compares fields
  * @return True when objects are equal
  * @see Any.equals
  */
-inline fun <reified T : Any> T.testEquality(other: Any?, vararg requirements: T.(other: T) -> Boolean): Boolean
+inline fun <reified T : Any> T.testEquality(
+        other: Any?,
+        requirements: EqualsContext<T>.(other: T) -> Unit
+): Boolean
 {
     if (other == null) return false
     if (other === this) return true
     if (other !is T) return false
-    return requirements.all { it(other) }
+
+    return EqualsContext(this)
+            .apply { requirements(other) }
+            .equal
 }
+

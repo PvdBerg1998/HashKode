@@ -28,9 +28,9 @@ class BasicTester(val f1: String = "Test", val f2: Double = Math.PI)
 {
     override fun hashCode() = hashKode(f1, f2)
 
-    override fun equals(other: Any?) = testEquality(
-            other,
-            { it.f1 == this.f1 },
-            { it.f2 == this.f2 }
-    )
+    override fun equals(other: Any?) = testEquality(other)
+    {
+        self.f1 shouldEqual it.f1
+        self.f2 shouldEqual it.f2
+    }
 }
