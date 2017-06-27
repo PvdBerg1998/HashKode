@@ -17,7 +17,7 @@ Implementing `hashcode` and `equals` can be tedious, verbose and is bug prone. H
 ---
   
 # Download
-HashKode can be downloaded from the [Maven Central Repository](g:"com.github.pvdberg1998" AND a:"hashkode").
+HashKode can be downloaded from the [Maven Central Repository](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.github.pvdberg1998%22%20AND%20a%3A%22hashkode%22).
 
 HashKode is released under the [MIT license](LICENSE.md).
 
