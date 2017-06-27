@@ -24,6 +24,9 @@
 
 package nl.pvdberg.hashkode
 
+private val DEFAULT_INITIAL_ODD_NUMBER = 17
+private val DEFAULT_MULTIPLIER_PRIME = 37
+
 /**
  * Generates a hashcode for given fields
  * @param fields Fields to generate a hashcode from
@@ -34,7 +37,9 @@ package nl.pvdberg.hashkode
  */
 fun hashKode(vararg fields: Any?, initialOddNumber: Int = 17, multiplierPrime: Int = 37): Int
 {
-    if (HashKode.VERIFY_HASHKODE_PARAMETERS)
+    if (HashKode.VERIFY_HASHKODE_PARAMETERS ||
+            initialOddNumber != DEFAULT_INITIAL_ODD_NUMBER ||
+            multiplierPrime != DEFAULT_MULTIPLIER_PRIME)
     {
         require(initialOddNumber.isOdd()) { "InitialOddNumber must be an odd number" }
         require(multiplierPrime.isPrime()) { "MultiplierPrime must be a prime number" }
