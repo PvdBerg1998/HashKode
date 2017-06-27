@@ -34,8 +34,8 @@ package nl.pvdberg.hashkode
  */
 inline fun <reified T : Any> T.testEquality(other: Any?, vararg requirements: T.(other: T) -> Boolean): Boolean
 {
-    if (other === this) return true
     if (other == null) return false
+    if (other === this) return true
     if (other !is T) return false
     return requirements.all { it(other) }
 }
