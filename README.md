@@ -9,10 +9,10 @@ Kotlin generates these methods [automatically](https://kotlinlang.org/docs/refer
 Implementing `hashcode` and `equals` can be tedious, verbose and is bug prone. HashKode provides concise ways to override these methods.
 
 ## Features
-- Lightweight (6.9 KB)
+- Lightweight: **6.9 KB**
 - Faster than alternatives by using `inlining` (thanks, Kotlin!)
 - Designed with Josh Bloch's *Effective Java* in mind
-- Optional parameter verification for higher performance
+- Using Java hashCode methods: tested, high quality hashes
 
 ---
   
