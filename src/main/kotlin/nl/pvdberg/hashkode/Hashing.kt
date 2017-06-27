@@ -24,19 +24,28 @@
 
 package nl.pvdberg.hashkode
 
+/**
+ * Generates a hashcode for given fields
+ * @param fields Fields to generate a hashcode from
+ * @param initialOddNumber Odd number to start with
+ * @param multiplierPrime Prime number to multiply hashes with
+ * @return Hashcode
+ * @see Any.hashCode
+ */
 fun hashKode(vararg fields: Any?, initialOddNumber: Int = 17, multiplierPrime: Int = 37): Int
 {
-    require(initialOddNumber.isOdd()) { "InitialOddNumber must be an odd number" }
-    require(multiplierPrime.isPrime()) { "MultiplierPrime must be a prime number" }
+    if (HashKode.VERIFY_HASHKODE_PARAMETERS)
+    {
+        require(initialOddNumber.isOdd()) { "InitialOddNumber must be an odd number" }
+        require(multiplierPrime.isPrime()) { "MultiplierPrime must be a prime number" }
+    }
 
     var result = initialOddNumber
-
     fields
             .forEach { field ->
                 val hash = field?.hashCode() ?: 0
                 result = multiplierPrime * result + hash
             }
-
     return result
 }
 

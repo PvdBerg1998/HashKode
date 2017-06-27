@@ -24,18 +24,20 @@
 
 package nl.pvdberg.hashkode
 
-/**
- * Tests equality of two objects
- * @receiver Object to compare another object to
- * @param other Object to compare to receiver
- * @param requirements Lambdas that compare two fields
- * @return True when objects are equal
- * @see Any.equals
- */
-inline fun <reified T : Any> T.testEquality(other: Any?, vararg requirements: T.(other: T) -> Boolean): Boolean
+import io.kotlintest.matchers.shouldBe
+import io.kotlintest.matchers.shouldNotBe
+import io.kotlintest.specs.StringSpec
+
+class EqualsTest : StringSpec()
 {
-    if (other === this) return true
-    if (other == null) return false
-    if (other !is T) return false
-    return requirements.all { it(other) }
+    init
+    {
+        "Equal objects are equal" {
+            BasicTester() shouldBe BasicTester()
+        }
+
+        "Different objects are not equal" {
+            BasicTester(f2 = 1.0) shouldNotBe BasicTester(f2 = 2.5)
+        }
+    }
 }

@@ -24,18 +24,7 @@
 
 package nl.pvdberg.hashkode
 
-/**
- * Tests equality of two objects
- * @receiver Object to compare another object to
- * @param other Object to compare to receiver
- * @param requirements Lambdas that compare two fields
- * @return True when objects are equal
- * @see Any.equals
- */
-inline fun <reified T : Any> T.testEquality(other: Any?, vararg requirements: T.(other: T) -> Boolean): Boolean
+object HashKode
 {
-    if (other === this) return true
-    if (other == null) return false
-    if (other !is T) return false
-    return requirements.all { it(other) }
+    var VERIFY_HASHKODE_PARAMETERS = true
 }

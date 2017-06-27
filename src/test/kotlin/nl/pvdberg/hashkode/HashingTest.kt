@@ -24,7 +24,6 @@
 
 package nl.pvdberg.hashkode
 
-import io.kotlintest.matchers.lt
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.matchers.shouldNotBe
 import io.kotlintest.matchers.shouldThrow
@@ -52,21 +51,20 @@ class HashingTest : StringSpec()
 
         "Hash is unique" {
             hashKode("Test", 1, 2, 3) shouldNotBe hashKode(1, 2, 3, "Test")
-            hashKode(null, Any(), Any()) shouldNotBe hashKode(55)
-            hashKode(Any(), null) shouldNotBe hashKode(null, Any())
             hashKode(Any()) shouldNotBe hashKode(Any())
         }
 
         "Hash is consistent" {
-            val obj = Any()
-            hashKode(obj) shouldBe hashKode(obj)
+            with(Any())
+            {
+                hashKode(this) shouldBe hashKode(this)
+            }
+            hashKode(BasicTester()) shouldBe hashKode(BasicTester())
             hashKode(1, 2, 3) shouldBe hashKode(1, 2, 3)
-            hashKode("Test") shouldBe hashKode("Test")
         }
 
         "Hash can overflow" {
-            hashKode(Integer.MAX_VALUE) shouldBe lt(0)
-            hashKode(Integer.MAX_VALUE) shouldBe hashKode(Integer.MAX_VALUE)
+            hashKode(Long.MAX_VALUE) shouldBe hashKode(Long.MAX_VALUE)
         }
     }
 }
