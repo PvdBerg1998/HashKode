@@ -158,4 +158,4 @@ HashKode can outperform alternative libraries.
 
 ---
 
-Tip: In a normal application you will never need to compare 50 million objects per second. Premature optimization is the root of all evil.
+Tip: In a normal application you will never need to compare ~30 million objects per second. Premature optimization is the root of all evil.
