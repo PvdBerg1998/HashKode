@@ -22,8 +22,8 @@ HashKode can be downloaded from the [Maven Central Repository](https://search.ma
 HashKode is released under the [MIT license](LICENSE.md).
 
 ## Alternatives
-- [Apache Commons Lang](https://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/builder/HashCodeBuilder.html) (483 KB)
-- [Google Guava](https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained) (55 KB)
+- [Apache Commons Lang](https://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/builder/HashCodeBuilder.html) (483 KB vs 9KB)
+- [Google Guava](https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained) (55 KB vs 9KB)
 
 ---
 
