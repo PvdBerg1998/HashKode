@@ -30,7 +30,7 @@ import io.kotlintest.matchers.shouldNotBe
 import io.kotlintest.matchers.shouldThrow
 import io.kotlintest.specs.StringSpec
 
-class HashKodeTest : StringSpec()
+class HashingTest : StringSpec()
 {
     init
     {
