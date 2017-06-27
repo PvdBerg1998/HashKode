@@ -17,7 +17,7 @@ Implementing `hashcode` and `equals` can be tedious, verbose and is bug prone. H
 ---
   
 # Download
-HashKode will soon be available on the [Maven Central Repository]!
+HashKode will soon be available on the **Maven Central Repository**!
 HashKode is released under the [MIT license](LICENSE.md).
 
 ## Alternatives
