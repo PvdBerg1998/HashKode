@@ -24,45 +24,25 @@
 
 package nl.pvdberg.hashkode
 
-@Suppress("OVERRIDE_BY_INLINE", "NOTHING_TO_INLINE")
-class EqualsContext<out T>(val one: T, val two: T) : HashKodeContext<T>
+interface HashKodeContext<out T>
 {
-    var equal = true
+    /**
+     * Tests equality of two objects and saves result in context
+     * @receiver Object to compare another object to
+     * @param other to compare to receiver
+     * @see Any.equals
+     */
+    fun Any.correspondsTo(other: Any?)
 
-    inline override infix fun Any.correspondsTo(other: Any?)
-    {
-        if (equal) equal = this == other
-    }
+    /**
+     * Runs function
+     * @param comparison Function which should do a comparison of two fields
+     */
+    fun compareBy(comparison: () -> Boolean)
 
-    inline override fun compareBy(comparison: () -> Boolean)
-    {
-        if (equal) equal = comparison()
-    }
-
-    inline override fun compareField(getter: T.() -> Any?)
-    {
-        if (equal) equal = one.getter() == two.getter()
-    }
-}
-
-/**
- * Tests equality of two objects
- * @receiver Object to compare another object to
- * @param other Object to compare to receiver
- * @param requirements Lambda that compares fields
- * @return True when objects are equal
- * @see Any.equals
- */
-inline fun <reified T : Any> T.compareFields(
-        other: Any?,
-        requirements: EqualsContext<T>.() -> Unit
-): Boolean
-{
-    if (other == null) return false
-    if (other === this) return true
-    if (other !is T) return false
-
-    return EqualsContext(this, other)
-            .apply { requirements() }
-            .equal
+    /**
+     * Compares a field by using given getter lambda
+     * @param getter Getter for a field
+     */
+    fun compareField(getter: T.() -> Any?)
 }

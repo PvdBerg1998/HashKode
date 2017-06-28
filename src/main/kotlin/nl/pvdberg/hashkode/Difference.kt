@@ -24,45 +24,76 @@
 
 package nl.pvdberg.hashkode
 
+data class FieldDifference<out T>(val field1: Pair<T, Any?>, val field2: Pair<T, Any?>)
+
 @Suppress("OVERRIDE_BY_INLINE", "NOTHING_TO_INLINE")
-class EqualsContext<out T>(val one: T, val two: T) : HashKodeContext<T>
+class DifferenceContext<T>(val one: T, val two: T) : HashKodeContext<T>
 {
-    var equal = true
+    val differences = mutableListOf<FieldDifference<T>>()
 
     inline override infix fun Any.correspondsTo(other: Any?)
     {
-        if (equal) equal = this == other
+        if (this != other)
+        {
+            differences.add(
+                    FieldDifference(
+                            field1 = one to this,
+                            field2 = two to other
+                    )
+            )
+        }
     }
 
+    /**
+     * Not supported when checking differences
+     * @see differenceBy
+     */
     inline override fun compareBy(comparison: () -> Boolean)
     {
-        if (equal) equal = comparison()
+        throw UnsupportedOperationException("compareBy is not supported when checking differences")
+    }
+
+    /**
+     * Runs function
+     * @param difference Function which should list all differences between two fields
+     */
+    inline fun differenceBy(difference: () -> List<FieldDifference<T>>)
+    {
+        differences.addAll(difference())
     }
 
     inline override fun compareField(getter: T.() -> Any?)
     {
-        if (equal) equal = one.getter() == two.getter()
+        val field1 = one.getter()
+        val field2 = two.getter()
+
+        if (field1 != field2)
+        {
+            differences.add(
+                    FieldDifference(
+                            field1 = one to field1,
+                            field2 = two to field2
+                    )
+            )
+        }
     }
 }
 
 /**
- * Tests equality of two objects
+ * Gets field differences between two objects.
  * @receiver Object to compare another object to
  * @param other Object to compare to receiver
  * @param requirements Lambda that compares fields
- * @return True when objects are equal
+ * @return List of differences
  * @see Any.equals
  */
-inline fun <reified T : Any> T.compareFields(
-        other: Any?,
-        requirements: EqualsContext<T>.() -> Unit
-): Boolean
+inline fun <reified T : Any> T.getDifferences(
+        other: T,
+        requirements: DifferenceContext<T>.() -> Unit
+): List<FieldDifference<T>>
 {
-    if (other == null) return false
-    if (other === this) return true
-    if (other !is T) return false
-
-    return EqualsContext(this, other)
+    if (other === this) return emptyList()
+    return DifferenceContext(this, other)
             .apply { requirements() }
-            .equal
+            .differences
 }

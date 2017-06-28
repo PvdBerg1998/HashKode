@@ -24,45 +24,30 @@
 
 package nl.pvdberg.hashkode
 
-@Suppress("OVERRIDE_BY_INLINE", "NOTHING_TO_INLINE")
-class EqualsContext<out T>(val one: T, val two: T) : HashKodeContext<T>
+import io.kotlintest.matchers.shouldBe
+import io.kotlintest.specs.StringSpec
+
+class DifferenceTest : StringSpec()
 {
-    var equal = true
-
-    inline override infix fun Any.correspondsTo(other: Any?)
+    init
     {
-        if (equal) equal = this == other
+        "Difference check functions as predicted" {
+            val tester1 = BasicTester(f1 = "Hello")
+            val tester2 = BasicTester(f1 = "World")
+
+            val diff = tester1.getDifferences(tester2)
+            {
+                compareField(BasicTester::f1)
+            }
+
+            diff.size shouldBe 1
+            with (diff.first())
+            {
+                (this.one === tester1) shouldBe true
+                (this.two === tester2) shouldBe true
+                this.field1 shouldBe "Hello"
+                this.field2 shouldBe "World"
+            }
+        }
     }
-
-    inline override fun compareBy(comparison: () -> Boolean)
-    {
-        if (equal) equal = comparison()
-    }
-
-    inline override fun compareField(getter: T.() -> Any?)
-    {
-        if (equal) equal = one.getter() == two.getter()
-    }
-}
-
-/**
- * Tests equality of two objects
- * @receiver Object to compare another object to
- * @param other Object to compare to receiver
- * @param requirements Lambda that compares fields
- * @return True when objects are equal
- * @see Any.equals
- */
-inline fun <reified T : Any> T.compareFields(
-        other: Any?,
-        requirements: EqualsContext<T>.() -> Unit
-): Boolean
-{
-    if (other == null) return false
-    if (other === this) return true
-    if (other !is T) return false
-
-    return EqualsContext(this, other)
-            .apply { requirements() }
-            .equal
 }

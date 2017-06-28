@@ -9,10 +9,11 @@ Kotlin generates these methods [automatically](https://kotlinlang.org/docs/refer
 Implementing `hashcode` and `equals` can be tedious, verbose and is bug prone. HashKode provides concise ways to override these methods.
 
 ## Features
-- Lightweight: **9 KB**
+- Lightweight: **14.2 KB**
 - [Very fast](#benchmarks)
 - Designed with Josh Bloch's *Effective Java* in mind
 - Uses Java hashCode methods: tested, high quality hashes
+- Able to list differences
 
 ---
   
@@ -22,19 +23,19 @@ HashKode can be downloaded from the [Maven Central Repository](https://search.ma
 HashKode is released under the [MIT license](LICENSE.md).
 
 ## Alternatives
-- [Apache Commons Lang](https://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/builder/HashCodeBuilder.html) (483 KB vs 9KB)
-- [Google Guava](https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained) (55 KB vs 9KB)
+- [Apache Commons Lang](https://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/builder/HashCodeBuilder.html) (483 KB: +468.8 KB)
+- [Google Guava](https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained) (55 KB: +40.8 KB)
 
 ---
 
 # How to use
 - [Hashcodes](#hashcodes)
 - [Equality](#equality)
+- [Difference](#difference)
 
 ---
 
 ## Hashcodes
-
 HashKode makes creating hashes of your fields extremely convenient: just pass your fields to `hashKode`.
 ```kotlin
 override fun hashCode() = hashKode(
@@ -52,7 +53,6 @@ override fun hashCode() = hashKode(field1, field2, initialOddNumber = 3, multipl
 ---
 
 ## Equality
-
 Checking two objects for structural equality can be done by overriding the `equals` method and using HashKodes `compareFields`. 
 ```Kotlin
 override fun equals(other: Any?) = compareFields(other)
@@ -61,14 +61,13 @@ override fun equals(other: Any?) = compareFields(other)
 }
 ``` 
 
-In `compareFields`, 3 properties are available:
+In `compareFields`, 3 fields are available:
 
 1) `one` : The first object (`this`)
 2) `two` : The second object (`other`)
 3) `equal` : Indicates if the objects are equal
 
 ### Abstraction
-
 There are 3 levels of abstraction available*.
 
 1) `compareField`
@@ -101,7 +100,7 @@ override fun equals(other: Any?) = compareFields(other)
 Note that it is possible to let a field correspond to a different field: `one.field1 correspondsTo two.field2`.
 
 ### Regular `(x == y)`
-The fastest way to check fields for equality is a regular `==` check. Remember to set the `equal` property manually.
+The fastest way to check fields for equality is a regular `==` check. Remember to set the `equal` field manually.
 ```kotlin
 override fun equals(other: Any?) = compareFields(other)
 {
@@ -115,8 +114,25 @@ override fun equals(other: Any?) = compareFields(other)
 
 ---
 
-## Benchmarks
+## Difference
+HashKode can list differences between fields of objects. The syntax is the same as when using `compareFields`.
+```kotlin
+val tester1 = Example(field = "Hello")
+val tester2 = Example(field = "World")
 
+val diff = tester1.getDifferences(tester2)
+{
+    compareField(BasicTester::field)
+}
+```
+`diff` will now contain a single `FieldDifference` object, since one different field was found.
+`FieldDifference` contains 2 pairs of a field and its owner object.
+
+A custom comparison can be done by using `differenceBy`.
+
+---
+
+## Benchmarks
 HashKode can outperform alternative libraries.
 
 ### Benchmark setup
@@ -155,7 +171,5 @@ HashKode can outperform alternative libraries.
 | HashKode     | **28.4 ns**
 | Guava        | 33.1 ns
 | Apache       | 29.7 ns
-
----
 
 Tip: In a normal application you will never need to compare ~30 million objects per second. Premature optimization is the root of all evil.
