@@ -115,7 +115,7 @@ override fun equals(other: Any?) = compareFields(other)
 ---
 
 ## Difference
-HashKode can list differences between fields of objects. The syntax is the same as when using `compareFields`.
+HashKode can list differences between fields of objects. The API is the same as when using `compareFields`.
 ```kotlin
 val tester1 = Example(field = "Hello")
 val tester2 = Example(field = "World")
