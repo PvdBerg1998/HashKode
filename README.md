@@ -171,5 +171,3 @@ HashKode can outperform alternative libraries.
 | HashKode     | **28.4 ns**
 | Guava        | 33.1 ns
 | Apache       | 29.7 ns
-
-Tip: In a normal application you will never need to compare ~30 million objects per second. Premature optimization is the root of all evil.
