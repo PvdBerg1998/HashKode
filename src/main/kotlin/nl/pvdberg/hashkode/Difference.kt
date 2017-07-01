@@ -26,12 +26,11 @@ package nl.pvdberg.hashkode
 
 data class FieldDifference<out T>(val field1: Pair<T, Any?>, val field2: Pair<T, Any?>)
 
-@Suppress("OVERRIDE_BY_INLINE", "NOTHING_TO_INLINE")
 class DifferenceContext<T>(val one: T, val two: T) : HashKodeContext<T>
 {
     val differences = mutableListOf<FieldDifference<T>>()
 
-    inline override infix fun Any.correspondsTo(other: Any?)
+    override infix fun Any.correspondsTo(other: Any?)
     {
         if (this != other)
         {
@@ -48,7 +47,7 @@ class DifferenceContext<T>(val one: T, val two: T) : HashKodeContext<T>
      * Not supported when checking differences
      * @see differenceBy
      */
-    inline override fun compareBy(comparison: () -> Boolean)
+    override fun compareBy(comparison: () -> Boolean)
     {
         throw UnsupportedOperationException("compareBy is not supported when checking differences")
     }
@@ -62,7 +61,7 @@ class DifferenceContext<T>(val one: T, val two: T) : HashKodeContext<T>
         differences.addAll(difference())
     }
 
-    inline override fun compareField(getter: T.() -> Any?)
+    override fun compareField(getter: T.() -> Any?)
     {
         val field1 = one.getter()
         val field2 = two.getter()

@@ -43,10 +43,13 @@ class DifferenceTest : StringSpec()
             diff.size shouldBe 1
             with (diff.first())
             {
-                (this.one === tester1) shouldBe true
-                (this.two === tester2) shouldBe true
-                this.field1 shouldBe "Hello"
-                this.field2 shouldBe "World"
+                val (owner1, field1) = this.field1
+                owner1 shouldBe tester1
+                field1 shouldBe "Hello"
+
+                val (owner2, field2) = this.field2
+                owner2 shouldBe tester2
+                field2 shouldBe "World"
             }
         }
     }
