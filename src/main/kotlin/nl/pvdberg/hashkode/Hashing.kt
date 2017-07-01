@@ -24,9 +24,6 @@
 
 package nl.pvdberg.hashkode
 
-private val DEFAULT_INITIAL_ODD_NUMBER = 17
-private val DEFAULT_MULTIPLIER_PRIME = 37
-
 /**
  * Generates a hashcode for given fields
  * @param fields Fields to generate a hashcode from
@@ -35,14 +32,22 @@ private val DEFAULT_MULTIPLIER_PRIME = 37
  * @return Hashcode
  * @see Any.hashCode
  */
-fun hashKode(vararg fields: Any?, initialOddNumber: Int = 17, multiplierPrime: Int = 37): Int
+@Suppress("NOTHING_TO_INLINE")
+inline fun hashKode(
+        vararg fields: Any?,
+        initialOddNumber: Int = HashKode.DEFAULT_INITIAL_ODD_NUMBER,
+        multiplierPrime: Int = HashKode.DEFAULT_MULTIPLIER_PRIME): Int
 {
     if (HashKode.VERIFY_HASHKODE_PARAMETERS ||
-            initialOddNumber != DEFAULT_INITIAL_ODD_NUMBER ||
-            multiplierPrime != DEFAULT_MULTIPLIER_PRIME)
+            initialOddNumber != HashKode.DEFAULT_INITIAL_ODD_NUMBER ||
+            multiplierPrime != HashKode.DEFAULT_MULTIPLIER_PRIME)
     {
-        require(initialOddNumber.isOdd()) { "InitialOddNumber must be an odd number" }
-        require(multiplierPrime.isPrime()) { "MultiplierPrime must be a prime number" }
+        require(initialOddNumber % 2 != 0) {
+            "InitialOddNumber must be an odd number"
+        }
+        require(multiplierPrime > 1 && (2..(multiplierPrime / 2)).all { multiplierPrime % it != 0 }) {
+            "MultiplierPrime must be a prime number"
+        }
     }
 
     var result = initialOddNumber
@@ -52,6 +57,3 @@ fun hashKode(vararg fields: Any?, initialOddNumber: Int = 17, multiplierPrime: I
     }
     return result
 }
-
-private fun Int.isOdd() = this % 2 != 0
-private fun Int.isPrime()= this > 1 && (2..(this / 2)).all { this % it != 0 }

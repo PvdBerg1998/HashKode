@@ -27,4 +27,6 @@ package nl.pvdberg.hashkode
 object HashKode
 {
     var VERIFY_HASHKODE_PARAMETERS = true
+    var DEFAULT_INITIAL_ODD_NUMBER = 17
+    var DEFAULT_MULTIPLIER_PRIME = 37
 }

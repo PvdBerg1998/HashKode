@@ -26,12 +26,12 @@ package nl.pvdberg.hashkode
 
 data class FieldDifference<out T>(val field1: Pair<T, Any?>, val field2: Pair<T, Any?>)
 
-@Suppress("OVERRIDE_BY_INLINE")
+@Suppress("OVERRIDE_BY_INLINE", "NOTHING_TO_INLINE")
 class DifferenceContext<T>(val one: T, val two: T) : HashKodeContext<T>
 {
     val differences = mutableListOf<FieldDifference<T>>()
 
-    override infix fun Any.correspondsTo(other: Any?)
+    inline override infix fun Any.correspondsTo(other: Any?)
     {
         if (this != other)
         {
