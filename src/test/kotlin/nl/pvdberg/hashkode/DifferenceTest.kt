@@ -44,11 +44,11 @@ class DifferenceTest : StringSpec()
             with (diff.first())
             {
                 val (owner1, field1) = this.field1
-                owner1 shouldBe tester1
+                (owner1 === tester1) shouldBe true
                 field1 shouldBe "Hello"
 
                 val (owner2, field2) = this.field2
-                owner2 shouldBe tester2
+                (owner2 === tester2) shouldBe true
                 field2 shouldBe "World"
             }
         }
