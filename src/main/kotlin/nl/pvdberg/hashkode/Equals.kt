@@ -24,22 +24,21 @@
 
 package nl.pvdberg.hashkode
 
-@Suppress("OVERRIDE_BY_INLINE", "NOTHING_TO_INLINE")
 class EqualsContext<out T>(val one: T, val two: T) : HashKodeContext<T>
 {
     var equal = true
 
-    inline override infix fun Any.correspondsTo(other: Any?)
+    override infix fun Any.correspondsTo(other: Any?)
     {
         if (equal) equal = this == other
     }
 
-    inline override fun compareBy(comparison: () -> Boolean)
+    override fun compareBy(comparison: () -> Boolean)
     {
         if (equal) equal = comparison()
     }
 
-    inline override fun compareField(getter: T.() -> Any?)
+    override fun compareField(getter: T.() -> Any?)
     {
         if (equal) equal = one.getter() == two.getter()
     }
