@@ -38,9 +38,9 @@ inline fun hashKode(
         initialOddNumber: Int = HashKode.DEFAULT_INITIAL_ODD_NUMBER,
         multiplierPrime: Int = HashKode.DEFAULT_MULTIPLIER_PRIME): Int
 {
-    if (HashKode.VERIFY_HASHKODE_PARAMETERS ||
-            initialOddNumber != HashKode.DEFAULT_INITIAL_ODD_NUMBER ||
-            multiplierPrime != HashKode.DEFAULT_MULTIPLIER_PRIME)
+    if (HashKode.VERIFY_HASHKODE_PARAMETERS &&
+            (initialOddNumber != HashKode.DEFAULT_INITIAL_ODD_NUMBER ||
+            multiplierPrime != HashKode.DEFAULT_MULTIPLIER_PRIME))
     {
         require(initialOddNumber % 2 != 0) {
             "InitialOddNumber must be an odd number"
