@@ -1,3 +1,5 @@
+*Notice*: This library in no longer maintained and may no longer compile. See [moroccode](https://github.com/gabrielshanahan/moroccode) for similar functionality.
+
 # HashKode
 HashKode is a small Kotlin hashcode utility to help you create easy and bugfree hashcodes and equality checks.
 
